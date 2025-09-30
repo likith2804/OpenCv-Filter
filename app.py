@@ -1,15 +1,15 @@
 import cv2
 import numpy as np
 
-# Load Haar Cascade for face detection
+
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
-# Load filters (PNG images with transparency)
+
 glasses = cv2.imread("filters/glasses.png", -1)
 hat = cv2.imread("filters/hat.png", -1)
 mustache = cv2.imread("filters/mustache.png", -1)
 
-# Warn about missing filters once per filter
+
 missing_filters = set()
 
 def overlay_filter(frame, filter_img, x, y, w, h, position="center"):
@@ -61,17 +61,17 @@ while True:
     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
 
     for (x, y, w, h) in faces:
-        # Glasses placement
+       
         frame = overlay_filter(frame, glasses, x, y + int(h / 4), w, int(h / 3), "glasses")
 
-        # Larger hat placement
+      
         hat_w = int(w * 2.0)
         hat_h = int(h * 1.2)
         hat_x = x - int((hat_w - w) / 2)
         hat_y = y - hat_h + int(h * 0.1)
         frame = overlay_filter(frame, hat, hat_x, hat_y, hat_w, hat_h, "hat")
 
-        # Mustache placement
+     
         mustache_x = x + w // 4
         mustache_y = y + (2 * h) // 3
         mustache_w = w // 2
